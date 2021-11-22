@@ -1,0 +1,14 @@
+{
+  "resourceName": "dynamo2e7a9e53",
+  "tableName": "dynamo2e7a9e53",
+  "partitionKey": {
+    "fieldName": "eventid",
+    "fieldType": "string"
+  },
+  "sortKey": {
+    "fieldName": "timestamp",
+    "fieldType": "number"
+  },
+  "gsi": [],
+  "triggerFunctions": []
+}

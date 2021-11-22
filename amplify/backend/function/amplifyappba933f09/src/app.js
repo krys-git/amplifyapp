@@ -17,15 +17,15 @@ AWS.config.update({ region: process.env.TABLE_REGION });
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
-let tableName = "dynamoAmplify";
+let tableName = "dynamo2e7a9e53";
 if(process.env.ENV && process.env.ENV !== "NONE") {
   tableName = tableName + '-' + process.env.ENV;
 }
 
 const userIdPresent = false; // TODO: update in case is required to use that definition
-const partitionKeyName = "tripid";
+const partitionKeyName = "eventid";
 const partitionKeyType = "S";
-const sortKeyName = "datetime";
+const sortKeyName = "timestamp";
 const sortKeyType = "N";
 const hasSortKey = sortKeyName !== "";
 const path = "/item";

@@ -1,27 +1,13 @@
 {
   "function": {
-    "AdminQueries0951cc1a": {
-      "service": "Lambda",
-      "providerPlugin": "awscloudformation",
-      "build": true,
-      "dependsOn": [
-        {
-          "category": "auth",
-          "resourceName": "amplifyapp7f05a2447f05a244",
-          "attributes": [
-            "UserPoolId"
-          ]
-        }
-      ]
-    },
-    "amplifyapp94db0d4f": {
+    "amplifyappba933f09": {
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda",
       "dependsOn": [
         {
           "category": "storage",
-          "resourceName": "dynamoAmplify",
+          "resourceName": "dynamo2e7a9e53",
           "attributes": [
             "Name",
             "Arn"
@@ -34,30 +20,7 @@
       ]
     }
   },
-  "api": {
-    "AdminQueries": {
-      "service": "API Gateway",
-      "providerPlugin": "awscloudformation",
-      "authorizationType": "AMAZON_COGNITO_USER_POOLS",
-      "dependsOn": [
-        {
-          "category": "auth",
-          "resourceName": "amplifyapp7f05a2447f05a244",
-          "attributes": [
-            "UserPoolId"
-          ]
-        },
-        {
-          "category": "function",
-          "resourceName": "AdminQueries0951cc1a",
-          "attributes": [
-            "Arn",
-            "Name"
-          ]
-        }
-      ]
-    }
-  },
+  "api": {},
   "auth": {
     "amplifyapp7f05a2447f05a244": {
       "service": "Cognito",
@@ -85,7 +48,12 @@
     }
   },
   "storage": {
-    "dynamoAmplify": {
+    "s30ed55e16": {
+      "service": "S3",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": []
+    },
+    "dynamo2e7a9e53": {
       "service": "DynamoDB",
       "providerPlugin": "awscloudformation"
     }

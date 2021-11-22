@@ -1,19 +1,38 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
-    "Description": "Lambda resource stack creation using Amplify CLI",
-     "Parameters": {
+    "Description": "Lambda Function resource stack creation using Amplify CLI",
+    "Parameters": {
+        "CloudWatchRule": {
+            "Type": "String",
+            "Default" : "NONE",
+            "Description" : " Schedule Expression"
+        },
+        "deploymentBucketName": {
+            "Type": "String"
+        },
         "env": {
             "Type": "String"
         },
-        
-        
-          "authamplifyapp7f05a2447f05a244UserPoolId": {
+        "s3Key": {
+            "Type": "String"
+        }
+        ,
+    
+    
+    
+        "storagedynamo2e7a9e53Name": {
             "Type": "String",
-            "Default": "authamplifyapp7f05a2447f05a244UserPoolId"
-          }
-
-          
-          
+            "Default": "storagedynamo2e7a9e53Name"
+            },
+        
+        "storagedynamo2e7a9e53Arn": {
+            "Type": "String",
+            "Default": "storagedynamo2e7a9e53Arn"
+            }
+        
+    
+        
+    
     },
     "Conditions": {
         "ShouldNotCreateEnvResources": {
@@ -33,17 +52,25 @@
             "aws:asset:property": "Code"
           },
           "Properties": {
+            "Code": {
+                "S3Bucket": {
+                    "Ref": "deploymentBucketName"
+                },
+                "S3Key": {
+                    "Ref": "s3Key"
+                }
+            },
             "Handler": "index.handler",
             "FunctionName": {
                 "Fn::If": [
                     "ShouldNotCreateEnvResources",
-                    "AdminQueries0951cc1a",
+                    "amplifyappba933f09",
                     {
 
                         "Fn::Join": [
                             "",
                             [
-                                "AdminQueries0951cc1a",
+                                "amplifyappba933f09",
                                 "-",
                                 {
                                     "Ref": "env"
@@ -54,18 +81,11 @@
                 ]
             },
             "Environment": {
-                "Variables" : {
-                    "ENV": {
-                        "Ref": "env"
-                    },
-                    "GROUP": "custom",
-                    "USERPOOL" : {
-                        "Ref": "authamplifyapp7f05a2447f05a244UserPoolId"
-                    }
-                }
+                "Variables" : {"ENV":{"Ref":"env"},"REGION":{"Ref":"AWS::Region"}}
             },
-            "Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+            "Role": { "Fn::GetAtt": ["LambdaExecutionRole", "Arn"] },
             "Runtime": "nodejs14.x",
+            "Layers": [],
             "Timeout": 25
           }
         },
@@ -75,13 +95,13 @@
                 "RoleName": {
                     "Fn::If": [
                         "ShouldNotCreateEnvResources",
-                        "AdminQueries0951cc1aLambdaRole",
+                        "amplifyappLambdaRolea326558c",
                         {
 
                             "Fn::Join": [
                                 "",
                                 [
-                                    "AdminQueries0951cc1aLambdaRole",
+                                    "amplifyappLambdaRolea326558c",
                                     "-",
                                     {
                                         "Ref": "env"
@@ -120,50 +140,36 @@
                     "Statement": [
                         {
                             "Effect": "Allow",
-                            "Action":["logs:CreateLogGroup",
+                            "Action": ["logs:CreateLogGroup",
                             "logs:CreateLogStream",
                             "logs:PutLogEvents"],
-                            "Resource": { "Fn::Sub" : [ "arn:aws:logs:${region}:${account}:log-group:/aws/lambda/${lambda}:log-stream:*", { "region": {"Ref": "AWS::Region"},  "account": {"Ref": "AWS::AccountId"}, "lambda": {"Ref": "LambdaFunction"}} ]}
+                            "Resource": { "Fn::Sub": [ "arn:aws:logs:${region}:${account}:log-group:/aws/lambda/${lambda}:log-stream:*", { "region": {"Ref": "AWS::Region"}, "account": {"Ref": "AWS::AccountId"}, "lambda": {"Ref": "LambdaFunction"}} ]}
                         },
                         {
-							"Effect": "Allow",
-							"Action": [
-								"cognito-idp:ListUsersInGroup",
-								"cognito-idp:AdminUserGlobalSignOut",
-								"cognito-idp:AdminEnableUser",
-								"cognito-idp:AdminDisableUser",
-								"cognito-idp:AdminRemoveUserFromGroup",
-								"cognito-idp:AdminAddUserToGroup",
-								"cognito-idp:AdminListGroupsForUser",
-								"cognito-idp:AdminGetUser",
-								"cognito-idp:AdminConfirmSignUp",
-								"cognito-idp:ListUsers",
-								"cognito-idp:ListGroups"
-							],
-							"Resource": {
-								"Fn::Join": [
-									"",
-									[
-										"arn:aws:cognito-idp:",
-										{
-											"Ref": "AWS::Region"
-										},
-										":",
-										{
-											"Ref": "AWS::AccountId"
-										},
-										":userpool/",
-										{
-											"Ref": "authamplifyapp7f05a2447f05a244UserPoolId"
-										}
-									]
-								]
-							}
-						}
+                            "Effect": "Allow",
+                            "Action": ["dynamodb:DescribeTable","dynamodb:GetItem","dynamodb:Query","dynamodb:Scan","dynamodb:PutItem","dynamodb:UpdateItem","dynamodb:DeleteItem"],
+                            "Resource": [
+                            
+                                { "Ref": "storagedynamo2e7a9e53Arn" },
+                                {
+                                    "Fn::Join": [
+                                        "/",
+                                        [
+                                            { "Ref": "storagedynamo2e7a9e53Arn" },
+                                            "index/*"
+                                        ]
+                                    ]
+                                }
+                            
+                            ]
+                        }
+                        
                     ]
                 }
             }
         }
+        
+        
     },
     "Outputs": {
         "Name": {
@@ -184,5 +190,6 @@
                 "Ref": "LambdaExecutionRole"
             }
         }
+        
     }
 }
