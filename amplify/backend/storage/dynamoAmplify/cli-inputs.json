@@ -1,0 +1,22 @@
+{
+  "resourceName": "dynamoAmplify",
+  "tableName": "dynamoAmplify",
+  "partitionKey": {
+    "fieldName": "tripid",
+    "fieldType": "string"
+  },
+  "sortKey": {
+    "fieldName": "datetime",
+    "fieldType": "number"
+  },
+  "gsi": [
+    {
+      "name": "gsi",
+      "partitionKey": {
+        "fieldName": "vehicleid",
+        "fieldType": "string"
+      }
+    }
+  ],
+  "triggerFunctions": []
+}
