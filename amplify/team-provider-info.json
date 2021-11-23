@@ -13,8 +13,13 @@
     },
     "categories": {
       "auth": {
-        "amplifyapp7f05a2447f05a244": {},
         "true": {}
+      },
+      "function": {
+        "amplifyappba933f09": {
+          "deploymentBucketName": "amplify-amplifyapp-dev-113931-deployment",
+          "s3Key": "amplify-builds/amplifyappba933f09-345a37575a2b4c6d6d4b-build.zip"
+        }
       }
     }
   }
