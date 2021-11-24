@@ -9,10 +9,12 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <h2>Testing Components</h2>
-        <SearchBox />
+        <h3 className="App-title">Amplify App Demo V1</h3>
       </header>
-      <footer>
+      <main className="App-body">
+        <SearchBox />
+      </main>
+      <footer className="App-footer">
         <h4>Running on React {React.version}</h4>
       </footer>
     </div>

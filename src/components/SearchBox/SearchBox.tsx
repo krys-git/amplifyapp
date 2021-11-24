@@ -1,16 +1,20 @@
 import * as React from "react";
 import { AmplifyFormField, AmplifyButton } from "@aws-amplify/ui-react";
 
-import DateTimeRangePicker from '@wojtekmaj/react-datetimerange-picker';
+import DateTimeRangePicker from "@wojtekmaj/react-datetimerange-picker";
+
+import "./SearchBox.css";
 
 function SearchBox() {
   return (
-    <div>
-      <p>Search</p>
-      <div style={{ display: "flex" }}>
+    <div className="SearchBox">
+      <div className="SearchBox-title">Please specify search range</div>
+      <div className="SearchBox-datepicker">
         <DateTimeRangePickerWrapper />
       </div>
-      <AmplifyButton onClick={() => alert("Searching...")}>
+      <AmplifyButton 
+        className="SearchBox-searchbutton"
+        onClick={() => alert("Searching...")}>
         Search
       </AmplifyButton>
     </div>
@@ -22,14 +26,13 @@ function DateTimeRangePickerWrapper() {
 
   return (
     <div>
-      <DateTimeRangePicker
-        onChange={onChange}
-        value={value}
-      />
+      <DateTimeRangePicker 
+        onChange={() => {
+          
+        }} 
+        value={[new Date(), new Date()]} />
     </div>
   );
-
 }
-
 
 export default SearchBox;

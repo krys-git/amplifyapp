@@ -1,0 +1,23 @@
+.SearchBox {
+    border: solid;
+    border-width: 1px;
+    padding: 20px;
+    width: 50%;
+}
+
+.SearchBox-title {
+    font-size: 20px;
+    color: whitesmoke;
+    text-align: left;
+    /* margin-bottom: 20px; */
+}
+
+.SearchBox-datepicker {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color: beige;
+}
+
+.SearchBox-searchbutton {
+    /* margin-top: 20px; */
+}
