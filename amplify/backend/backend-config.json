@@ -25,5 +25,21 @@
         }
       ]
     }
+  },
+  "api": {
+    "apiAmplify2Lambda": {
+      "service": "API Gateway",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [
+        {
+          "category": "function",
+          "resourceName": "amplifyapp7661b16f",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        }
+      ]
+    }
   }
 }

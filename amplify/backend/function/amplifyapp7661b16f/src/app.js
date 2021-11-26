@@ -13,11 +13,14 @@ var awsServerlessExpressMiddleware = require('aws-serverless-express/middleware'
 var bodyParser = require('body-parser')
 var express = require('express')
 
-AWS.config.update({ region: process.env.TABLE_REGION });
+AWS.config.update({ 
+  region: process.env.TABLE_REGION,
+  // endpoint: "http://localhost:8000" // local instance of dynamoDB
+});
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
-let tableName = "dynamof9484251";
+var tableName = "dynamof9484251";
 if(process.env.ENV && process.env.ENV !== "NONE") {
   tableName = tableName + '-' + process.env.ENV;
 }
@@ -77,7 +80,7 @@ function createDynamoDbClient(regionName) {
 
 function createScanInput() {
   return {
-    "TableName": "dynamo2e7a9e53",
+    "TableName": tableName,
     "ConsistentRead": false
   }
 }
@@ -117,6 +120,7 @@ function handleCommonErrors(err) {
         + `Otherwise consider reducing frequency of requests or increasing provisioned capacity for your table or secondary index. Error: ${err.message}`);
       return;
     case 'ResourceNotFoundException':
+      console.log("tableName" + tableName);
       console.error(`One of the tables was not found, verify table exists before retrying. Error: ${err.message}`);
       return;
     case 'ServiceUnavailable':
@@ -150,6 +154,8 @@ function handleCommonErrors(err) {
 app.get(path, async function(req, res) {
   try {
     const data = await executeScan(dynamoDbClient, scanInput);
+    console.log(typeof(data));
+    minify(data);
     res.statusCode = 200;
     res.json(data);
   } catch (err) {
@@ -158,6 +164,18 @@ app.get(path, async function(req, res) {
     res.json({error: err});
   }
 });
+
+function minify(data) {
+  // let obj = JSON.parse(data);
+  for (let item of data.Items) {
+    item.eventid = item.eventid.S;
+    item.objectid = item.objectid.S;
+    item.timestamp = parseInt(item.timestamp.N);
+    item.latitude = parseInt(item.latitude.N);
+    item.longitude = parseInt(item.longitude.N);
+  }
+  // return data;
+}
 
 /*****************************************
  * HTTP Get method for get single object *
