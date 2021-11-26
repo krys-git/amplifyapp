@@ -1,6 +1,6 @@
 {
-  "resourceName": "dynamo2e7a9e53",
-  "tableName": "dynamo2e7a9e53",
+  "resourceName": "dynamof9484251",
+  "tableName": "dynamof9484251",
   "partitionKey": {
     "fieldName": "eventid",
     "fieldType": "string"

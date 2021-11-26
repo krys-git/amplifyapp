@@ -1,13 +1,19 @@
 {
+  "storage": {
+    "dynamof9484251": {
+      "service": "DynamoDB",
+      "providerPlugin": "awscloudformation"
+    }
+  },
   "function": {
-    "amplifyappba933f09": {
+    "amplifyapp7661b16f": {
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda",
       "dependsOn": [
         {
           "category": "storage",
-          "resourceName": "dynamo2e7a9e53",
+          "resourceName": "dynamof9484251",
           "attributes": [
             "Name",
             "Arn"
@@ -18,19 +24,6 @@
           }
         }
       ]
-    }
-  },
-  "api": {},
-  "auth": {},
-  "storage": {
-    "s30ed55e16": {
-      "service": "S3",
-      "providerPlugin": "awscloudformation",
-      "dependsOn": []
-    },
-    "dynamo2e7a9e53": {
-      "service": "DynamoDB",
-      "providerPlugin": "awscloudformation"
     }
   }
 }
