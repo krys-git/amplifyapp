@@ -1,0 +1,9 @@
+.SearchResult {
+    border: solid;
+    border-width: 1px;
+    padding: 20px;
+    color: white;
+}
+.SearchResult table, td, tr{
+    border: 1px solid white;
+}

@@ -171,8 +171,9 @@ function minify(data) {
     item.eventid = item.eventid.S;
     item.objectid = item.objectid.S;
     item.timestamp = parseInt(item.timestamp.N);
-    item.latitude = parseInt(item.latitude.N);
-    item.longitude = parseInt(item.longitude.N);
+    item.latitude = parseFloat(item.latitude.N);
+    item.longitude = parseFloat(item.longitude.N);
+    
   }
   // return data;
 }

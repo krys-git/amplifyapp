@@ -1,15 +1,15 @@
-import React from 'react';
-import {} from '@aws-amplify/ui-react'
-import {Table} from '@awsui/components-react'
-import Amplify, { API } from 'aws-amplify';
-import awsconfig from '../../aws-exports';
+import React, { useState } from "react";
+import {} from "@aws-amplify/ui-react";
+import { Table } from "@awsui/components-react";
+import Amplify, { API } from "aws-amplify";
+import awsconfig from "../../aws-exports";
+
+import "./SearchResult.css"
 
 Amplify.configure(awsconfig);
-
-const apiName = 'apiAmplify2Lambda';
-const path = '/events';
-
-const data = API.get(apiName, path, {});
+//var data= [{eventid: "event 1"}];
+const apiName = "apiAmplify2Lambda";
+const path = "/events";
 
 // const COLUMN_DEFINITIONS = [
 //   {
@@ -44,39 +44,43 @@ const data = API.get(apiName, path, {});
 //   },
 
 function SearchResult() {
-  return (
-    <div>
-      <p>{typeof(data)}</p>
-    </div>
-  )
+  const initData = [
+    { eventid: "", objectid: "", timestamp: 0, latitude: 0.0, longitude: 0.0 },
+  ];
+  const [data, setData] = useState(initData);
+  API.get(apiName, path, {}).then((d) => {
+    console.log(d.Items);
+    setData(d.Items);
+  });
 
-  //   <table>
-  //       <thead>
-  //         <tr>
-  //             <th>EventId</th>
-  //             <th>ObjectId</th>
-  //             <th>Timestamp</th>
-  //             <th>Latitude</th>
-  //             <th>Longitude</th>
-  //         </tr>
-  //       </thead>
-  //       <tbody>
-  //         {
-  //           mockData.map(item => {
-  //               return (
-  //                 <tr>
-  //                   <td>{item.eventid}</td>
-  //                   <td>{item.objectid}</td>
-  //                   <td>{new Date(item.timestamp).toUTCString()}</td>
-  //                   <td>{item.latitude}</td>
-  //                   <td>{item.longitude}</td>
-  //                 </tr>
-  //               );
-  //           })
-  //         }
-  //       </tbody>
-  //   </table>
-  // );
+  return (
+    <div className="SearchResult">
+      <table> 
+        <thead>
+          <tr>
+            <th>EventId</th>
+            <th>ObjectId</th>
+            <th>Timestamp</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.map((x) => {
+            return (
+              <tr>
+                <td>{x.eventid}</td>
+                <td>{x.objectid}</td>
+                <td>{new Date(x.timestamp).toUTCString()}</td>
+                <td>{x.latitude}</td>
+                <td>{x.longitude}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>    
+    </div>
+  );
 }
 
 export default SearchResult;
