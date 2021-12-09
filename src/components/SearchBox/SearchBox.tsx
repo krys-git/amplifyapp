@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { AmplifyButton } from "@aws-amplify/ui-react";
 import { useNavigate } from "react-router";
 
 import {
